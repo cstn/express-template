@@ -1,19 +1,16 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
 import type { Request, Response } from 'express';
 import express from 'express';
 import helmet from 'helmet';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { config } from './config/app.js';
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = config.PORT;
 
+app.disable('x-powered-by');
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (_req: Request, res: Response) => {
   res.json({ message: 'Hello from Express' });
