@@ -3,6 +3,7 @@ import express from 'express';
 import helmet from 'helmet';
 
 import { config } from './config/app.js';
+import { router as healthRouter } from './modules/health/health-router.js';
 
 const app = express();
 const PORT = config.PORT;
@@ -13,17 +14,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (_req: Request, res: Response) => {
-  res.json({ message: 'Hello from Express' });
+  res.json({ message: 'API template' });
 });
 
-app.get('/health', (_req: Request, res: Response) => {
-  res.json({ status: 'ok', uptime: process.uptime() });
-});
-
-app.post('/echo', (req: Request, res: Response) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  res.json({ received: req.body });
-});
+app.use(healthRouter);
 
 app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: 'Not found' });
@@ -35,7 +29,7 @@ app.use((err: Error, _req: Request, res: Response) => {
 });
 
 const server = app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
 
 for (const signal of ['SIGINT', 'SIGTERM'] as const) {
