@@ -1,5 +1,7 @@
+import cors from 'cors';
 import type { Request, Response } from 'express';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 
@@ -9,15 +11,20 @@ import { errorHandler } from './middleware/error-handler.js';
 import { router as healthRouter } from './modules/health/health-router.js';
 import { buildSpec } from './openapi/document.js';
 
-const app = express();
-const PORT = config.PORT;
+export const app = express();
 
 app.disable('x-powered-by');
 app.use(helmet());
-app.use(express.json());
+app.use(cors({ origin: config.ALLOWED_ORIGINS }));
+app.use(
+  express.json({
+    limit: '1mb',
+  })
+);
+app.use(rateLimit({ windowMs: 15 * 60_000, limit: 100 }));
 app.use(express.urlencoded({ extended: false }));
 
-if (process.env.ENABLE_DOCS === 'true') {
+if (config.DOCS) {
   const spec = buildSpec();
   app.get('/openapi.json', (_req: Request, res: Response) => res.json(spec));
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(spec));
@@ -32,13 +39,3 @@ app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: 'Not found' });
 });
 app.use(errorHandler);
-
-const server = app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
-
-for (const signal of ['SIGINT', 'SIGTERM'] as const) {
-  process.on(signal, () => {
-    server.close(() => process.exit(0));
-  });
-}
