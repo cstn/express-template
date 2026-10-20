@@ -3,6 +3,8 @@ import express from 'express';
 import helmet from 'helmet';
 
 import { config } from './config/app.js';
+import { router as authRouter } from './modules/auth/auth-router.js';
+import { router as demoRouter } from './modules/demo/demo-router.js';
 import { router as healthRouter } from './modules/health/health-router.js';
 
 const app = express();
@@ -18,6 +20,8 @@ app.get('/', (_req: Request, res: Response) => {
 });
 
 app.use(healthRouter);
+app.use('/auth', authRouter);
+app.use('/demo', demoRouter);
 
 app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: 'Not found' });
