@@ -29,8 +29,10 @@
 
     /* Interop / Performance */
     "skipLibCheck": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+
+    "types": ["node"]
   },
-  "include": ["src/**/*", "commitlint.config.ts"],
+  "include": ["src/**/*", "scripts/**/*", "commitlint.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

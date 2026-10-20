@@ -2,7 +2,7 @@
 
 ## Description
 
-This is an Express server application template
+This is an Express app application template
 
 ## Project setup
 

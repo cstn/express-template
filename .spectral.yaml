@@ -1,0 +1,7 @@
+extends: ["spectral:oas"]
+rules:
+  operation-operationId: error        # every operation needs an operationId
+  operation-tags: error               # every operation needs at least one tag
+  operation-description: off          # skip if you only write summaries
+  info-contact: off                   # not needed for an internal API
+  oas3-api-servers: off               # you set a relative server URL

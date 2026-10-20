@@ -1,11 +1,13 @@
 import type { Request, Response } from 'express';
 import express from 'express';
 import helmet from 'helmet';
+import swaggerUi from 'swagger-ui-express';
 
+import { router as appRouter } from './app.router.js';
 import { config } from './config/app.js';
-import { router as authRouter } from './modules/auth/auth-router.js';
-import { router as demoRouter } from './modules/demo/demo-router.js';
+import { errorHandler } from './middleware/error-handler.js';
 import { router as healthRouter } from './modules/health/health-router.js';
+import { buildSpec } from './openapi/document.js';
 
 const app = express();
 const PORT = config.PORT;
@@ -15,22 +17,21 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+if (process.env.ENABLE_DOCS === 'true') {
+  const spec = buildSpec();
+  app.get('/openapi.json', (_req: Request, res: Response) => res.json(spec));
+  app.use('/docs', swaggerUi.serve, swaggerUi.setup(spec));
+}
+
 app.get('/', (_req: Request, res: Response) => {
-  res.json({ message: 'API template' });
+  res.send('Express API template');
 });
-
 app.use(healthRouter);
-app.use('/auth', authRouter);
-app.use('/demo', demoRouter);
-
+app.use('/v1', appRouter);
 app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: 'Not found' });
 });
-
-app.use((err: Error, _req: Request, res: Response) => {
-  console.error(err);
-  res.status(500).json({ error: 'Internal server error' });
-});
+app.use(errorHandler);
 
 const server = app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
