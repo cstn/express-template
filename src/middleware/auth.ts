@@ -3,20 +3,6 @@ import { createRemoteJWKSet, errors, type JWTPayload, jwtVerify } from 'jose';
 
 export type Role = 'user' | 'admin';
 
-export interface AuthUser {
-  id: string;
-  role?: Role;
-}
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Express {
-    interface Request {
-      user?: AuthUser;
-    }
-  }
-}
-
 interface AccessTokenPayload extends JWTPayload {
   role?: Role;
 }

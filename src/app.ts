@@ -11,6 +11,7 @@ import swaggerUi from 'swagger-ui-express';
 import { router as appRouter } from './app.router.js';
 import { config } from './config/app.js';
 import { errorHandler } from './middleware/error-handler.js';
+import { localeMiddleware } from './middleware/locale.js';
 import { router as healthRouter } from './modules/health/health-router.js';
 import { buildSpec } from './openapi/document.js';
 import { logger } from './utils/logger.js';
@@ -41,6 +42,7 @@ app.use(
     },
   })
 );
+app.use(localeMiddleware);
 
 if (config.DOCS) {
   const spec = buildSpec();
