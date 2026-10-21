@@ -6,6 +6,7 @@ dotenv({
 });
 
 export const EnvironmentSchema = z.object({
+  ENV: z.enum(['development', 'production', 'staging', 'test']),
   PORT: z.number(),
   DOCS: z.boolean(),
   ALLOWED_ORIGINS: z.array(z.string()).optional(),
@@ -17,6 +18,8 @@ export const EnvironmentSchema = z.object({
 export type Environment = z.infer<typeof EnvironmentSchema>;
 
 export const config: Environment = {
+  ENV: process.env.NODE_ENV as
+    'development' | 'production' | 'staging' | 'test',
   PORT: Number(process.env.PORT) || 3000,
   DOCS: process.env.ENABLE_DOCS === 'true',
   ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS?.split(','),

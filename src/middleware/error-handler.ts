@@ -3,7 +3,7 @@ import { ZodError } from 'zod';
 
 export const errorHandler: ErrorRequestHandler = (
   err: any,
-  _req: Request,
+  req: Request,
   res: Response
 ) => {
   if (err instanceof ZodError) {
@@ -18,6 +18,7 @@ export const errorHandler: ErrorRequestHandler = (
     });
   }
 
+  req.log.error({ err }, 'unhandled error');
   return (
     res
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
