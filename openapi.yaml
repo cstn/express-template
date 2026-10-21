@@ -1,0 +1,77 @@
+openapi: 3.1.0
+info:
+  title: Express API
+  description: Express API template
+  contact:
+    name: Carsten Stein
+    email: carsten.stein@cast-it.de
+  version: 1.0.0
+servers:
+  - url: /v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Auth
+    description: Authentication and authorization
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - path
+                  - message
+          required:
+            - message
+      required:
+        - error
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
+      description: User response schema
+  parameters: {}
+paths:
+  /auth/me:
+    get:
+      operationId: getMe
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+webhooks: {}

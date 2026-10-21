@@ -13,7 +13,7 @@ import { config } from './config/app.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { localeMiddleware } from './middleware/locale.js';
 import { router as healthRouter } from './modules/health/health-router.js';
-import { buildSpec } from './openapi/document.js';
+import { buildOpenApiDocument, buildOpenApiYaml } from './openapi/document.js';
 import { logger } from './utils/logger.js';
 
 export const app = express();
@@ -45,8 +45,13 @@ app.use(
 app.use(localeMiddleware);
 
 if (config.DOCS) {
-  const spec = buildSpec();
+  const spec = buildOpenApiDocument();
+  const yamlSpec = buildOpenApiYaml();
   app.get('/openapi.json', (_req: Request, res: Response) => res.json(spec));
+  app.get('/openapi.yaml', (_req: Request, res: Response) => {
+    res.type('application/yaml').send(yamlSpec);
+  });
+
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(spec));
 }
 

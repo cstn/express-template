@@ -1,10 +1,11 @@
 import '../modules/auth/auth.doc.js';
 
 import { OpenApiGeneratorV31 } from '@asteasolutions/zod-to-openapi';
+import yaml from 'yaml';
 
 import { registry } from './registry.js';
 
-export const buildSpec = () =>
+export const buildOpenApiDocument = () =>
   new OpenApiGeneratorV31(registry.definitions).generateDocument({
     openapi: '3.1.0',
     info: {
@@ -25,3 +26,5 @@ export const buildSpec = () =>
       },
     ],
   });
+
+export const buildOpenApiYaml = () => yaml.stringify(buildOpenApiDocument());
