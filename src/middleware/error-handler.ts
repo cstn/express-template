@@ -1,4 +1,9 @@
-import { type ErrorRequestHandler, Request, Response } from 'express';
+import {
+  type ErrorRequestHandler,
+  NextFunction,
+  Request,
+  Response,
+} from 'express';
 import mongoose from 'mongoose';
 import { ZodError } from 'zod';
 
@@ -12,7 +17,9 @@ export const errorHandler: ErrorRequestHandler = (
     };
   },
   req: Request,
-  res: Response
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _next: NextFunction
 ) => {
   if (err instanceof ZodError) {
     return res.status(400).json({
