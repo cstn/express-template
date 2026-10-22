@@ -15,6 +15,8 @@ tags:
     description: Authentication and authorization
   - name: Users
     description: User accounts
+  - name: Content
+    description: Content
 components:
   securitySchemes:
     bearerAuth:
@@ -81,11 +83,71 @@ components:
         - firstName
         - lastName
       description: User response schema
+    ContentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type:
+            - string
+            - "null"
+        data:
+          type: object
+          additionalProperties: {}
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - createdAt
+      description: Content response schema
+    ContentsResponse:
+      type: object
+      properties:
+        total:
+          type: number
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContentResponse"
+      required:
+        - total
+        - items
+      description: Content list response schema
   parameters: {}
 paths:
   /auth/me:
     get:
+      description: Current user
       operationId: getMe
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthenticatedUserResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users:
+    get:
+      description: Current user account
+      operationId: getCurrentUser
       tags:
         - Users
       security:
@@ -105,6 +167,84 @@ paths:
                 $ref: "#/components/schemas/Error"
         "404":
           description: User account not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /content:
+    get:
+      description: Content list
+      operationId: getContents
+      tags:
+        - Content
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type:
+              - integer
+              - "null"
+            minimum: 0
+            default: 0
+            description: Result offset, default 0
+          required: false
+          description: Result offset, default 0
+          name: offset
+          in: query
+        - schema:
+            type: integer
+            exclusiveMinimum: 0
+            default: 10
+            description: Result limit, default 10
+          required: false
+          description: Result limit, default 10
+          name: limit
+          in: query
+      responses:
+        "200":
+          description: Content list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContentsResponse"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Content not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /content/{id}:
+    get:
+      description: Content
+      operationId: getContent
+      tags:
+        - Content
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+            description: Content id
+            example: 6a4e5a4eac598a2804dd4f30
+          required: true
+          description: Content id
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContentResponse"
+        "404":
+          description: Content not found
           content:
             application/json:
               schema:

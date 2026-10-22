@@ -1,10 +1,25 @@
-import { type ErrorRequestHandler, Request, Response } from 'express';
+import {
+  type ErrorRequestHandler,
+  NextFunction,
+  Request,
+  Response,
+} from 'express';
+import mongoose from 'mongoose';
 import { ZodError } from 'zod';
 
 export const errorHandler: ErrorRequestHandler = (
-  err: any,
+  err: Error & {
+    code?: number;
+    keyValue?: string;
+    status?: number;
+    driverError?: {
+      code?: string;
+    };
+  },
   req: Request,
-  res: Response
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _next: NextFunction
 ) => {
   if (err instanceof ZodError) {
     return res.status(400).json({
@@ -18,16 +33,27 @@ export const errorHandler: ErrorRequestHandler = (
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (err instanceof mongoose.Error.ValidationError) {
+    return res.status(400).json({ message: err.message });
+  }
+  if (err instanceof mongoose.Error.CastError) {
+    return res.status(400).json({ message: 'Invalid object id' });
+  }
+
+  if (err?.code === 11000) {
+    return res
+      .status(409)
+
+      .json({ message: 'Duplicate key', keys: err.keyValue });
+  }
+
   if (err?.driverError?.code === '23505') {
     return res.status(409).json({ error: 'Already exists' });
   }
 
   req.log.error({ err }, 'unhandled error');
-  return (
-    res
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      .status((err.status as number) ?? 500)
-      .json({ error: { message: (err as Error).message ?? 'Internal error' } })
-  );
+  return res
+
+    .status(err.status ?? 500)
+    .json({ error: { message: err.message ?? 'Internal error' } });
 };

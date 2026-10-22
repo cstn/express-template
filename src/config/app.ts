@@ -13,8 +13,9 @@ export const EnvironmentSchema = z.object({
   JWKS_URL: z.url(),
   JWT_ISSUER: z.string(),
   JWT_AUDIENCE: z.string(),
-  DATABASE_URL: z.string(),
+  DATABASE_URL: z.url(),
   REDIS_URL: z.string(),
+  MONGO_URL: z.url(),
 });
 
 export type Environment = z.infer<typeof EnvironmentSchema>;
@@ -30,10 +31,13 @@ export const config: Environment = {
   JWT_AUDIENCE: process.env.JWT_AUDIENCE as string,
   DATABASE_URL: process.env.DATABASE_URL as string,
   REDIS_URL: process.env.REDIS_URL as string,
+  MONGO_URL: process.env.MONGO_URL as string,
 };
 
-const validated = EnvironmentSchema.safeParse(config);
-if (!validated.success) {
-  console.error('Invalid environment variables:', validated.error);
-  process.exit(1);
+if (process.env.NODE_ENV !== 'test') {
+  const validated = EnvironmentSchema.safeParse(config);
+  if (!validated.success) {
+    console.error('Invalid environment variables:', validated.error);
+    process.exit(1);
+  }
 }

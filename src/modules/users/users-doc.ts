@@ -3,8 +3,9 @@ import { UserResponseSchema } from './dto/get-user.response.js';
 
 registry.register('UserResponse', UserResponseSchema);
 registry.registerPath({
+  description: 'Current user account',
   method: 'get',
-  path: '/',
+  path: '/users',
   operationId: 'getCurrentUser',
   tags: ['Users'],
   security: [

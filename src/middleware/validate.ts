@@ -1,7 +1,7 @@
 import type { RequestHandler } from 'express';
-import { type ZodTypeAny } from 'zod';
+import { ZodType } from 'zod';
 
-type Schemas = { params?: ZodTypeAny; query?: ZodTypeAny; body?: ZodTypeAny };
+type Schemas = { params?: ZodType; query?: ZodType; body?: ZodType };
 
 export const validate =
   (schemas: Schemas): RequestHandler =>
