@@ -7,7 +7,7 @@
     "prepare": "husky",
     "prebuild": "rm -rf dist",
     "compile": "tsc --noEmit",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts",
     "debug": "DEBUG=express:*,router,router:* tsx watch src/server.ts",
