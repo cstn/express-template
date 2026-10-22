@@ -39,7 +39,8 @@ app.use(
       return id;
     },
     autoLogging: {
-      ignore: (req: Request) => req.url === '/health',
+      ignore: (req: Request) =>
+        config.ENV === 'test' || ['/health'].includes(req.url),
     },
   })
 );
