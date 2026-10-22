@@ -1,11 +1,16 @@
 import { app } from './app.js';
 import { config } from './config/app.js';
+import { connectDb, mongoose } from './database/mongo/mongo-connection.js';
 import AppDataSource from './database/postgres/database-config.js';
+import { redis } from './shared/redis.js';
 import { logger } from './utils/logger.js';
 
 const main = async () => {
   await AppDataSource.initialize();
   logger.info('Database connected');
+
+  await connectDb();
+  logger.info('MongoDB connected');
 
   const server = app.listen(config.PORT, () => {
     logger.info('Server started');
@@ -19,6 +24,15 @@ const main = async () => {
         await AppDataSource.destroy();
         logger.info('Database disconnected');
       }
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+      if (mongoose.connection.readyState === 1) {
+        await mongoose.connection.close();
+        logger.info('MongoDB disconnected');
+      }
+
+      redis.disconnect();
+      logger.info('Redis disconnected');
     });
 
   process.on('SIGTERM', shutdown);
