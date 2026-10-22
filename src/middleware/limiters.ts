@@ -2,14 +2,19 @@ import { Request } from 'express';
 import rateLimit, { ipKeyGenerator, Store } from 'express-rate-limit';
 import { type RedisReply, RedisStore } from 'rate-limit-redis';
 
-import { getRedisClient } from '../shared/redis.js';
+import { redis } from '../shared/redis.js';
 
-const makeStore = (prefix: string): Store =>
-  new RedisStore({
+const makeStore = (prefix: string): Store | undefined => {
+  if (process.env.NODE_ENV === 'test') {
+    return undefined;
+  }
+
+  return new RedisStore({
     sendCommand: (command: string, ...args: string[]) =>
-      getRedisClient().call(command, ...args) as Promise<RedisReply>,
+      redis.call(command, ...args) as Promise<RedisReply>,
     prefix,
   });
+};
 
 export const apiLimiter = rateLimit({
   windowMs: 60_000,

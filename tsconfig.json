@@ -38,6 +38,11 @@
     "types": ["node"]
   },
 
-  "include": ["src/**/*", "test/**/*", "commitlint.config.ts"],
+  "include": [
+    "src/**/*",
+    "test/**/*",
+    "commitlint.config.ts",
+    "vitest.config.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

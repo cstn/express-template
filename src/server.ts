@@ -1,14 +1,11 @@
 import { app } from './app.js';
 import { config } from './config/app.js';
 import AppDataSource from './database/postgres/database-config.js';
-import { connectRedis } from './shared/redis.js';
 import { logger } from './utils/logger.js';
 
 const main = async () => {
   await AppDataSource.initialize();
   logger.info('Database connected');
-
-  connectRedis();
 
   const server = app.listen(config.PORT, () => {
     logger.info('Server started');
