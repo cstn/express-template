@@ -13,6 +13,8 @@ export const EnvironmentSchema = z.object({
   JWKS_URL: z.url(),
   JWT_ISSUER: z.string(),
   JWT_AUDIENCE: z.string(),
+  DATABASE_URL: z.string(),
+  REDIS_URL: z.string(),
 });
 
 export type Environment = z.infer<typeof EnvironmentSchema>;
@@ -26,6 +28,8 @@ export const config: Environment = {
   JWKS_URL: process.env.JWKS_URL as string,
   JWT_ISSUER: process.env.JWT_ISSUER as string,
   JWT_AUDIENCE: process.env.JWT_AUDIENCE as string,
+  DATABASE_URL: process.env.DATABASE_URL as string,
+  REDIS_URL: process.env.REDIS_URL as string,
 };
 
 const validated = EnvironmentSchema.safeParse(config);

@@ -4,6 +4,10 @@
     "target": "ES2022",
     "lib": ["ES2022"],
 
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+
     /* Modules */
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

@@ -1,4 +1,5 @@
-import '../modules/auth/auth.doc.js';
+import '../modules/auth/auth-doc.js';
+import '../modules/users/users-doc.js';
 
 import { OpenApiGeneratorV31 } from '@asteasolutions/zod-to-openapi';
 import yaml from 'yaml';
@@ -23,6 +24,10 @@ export const buildOpenApiDocument = () =>
       {
         name: 'Auth',
         description: 'Authentication and authorization',
+      },
+      {
+        name: 'Users',
+        description: 'User accounts',
       },
     ],
   });
