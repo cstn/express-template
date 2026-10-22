@@ -3,7 +3,7 @@ import { Redis } from 'ioredis';
 import { config } from '../config/app.js';
 import { logger } from '../utils/logger.js';
 
-let redis: Redis | undefined;
+export let redis: Redis | undefined;
 
 export const connectRedis = () => {
   if (!redis) {
@@ -14,4 +14,12 @@ export const connectRedis = () => {
     redis.on('error', (err: Error) => logger.error(err, 'Redis error:'));
     redis.on('connect', () => logger.info('Redis connected'));
   }
+};
+
+export const getRedisClient = (): Redis => {
+  if (!redis) {
+    connectRedis();
+  }
+
+  return redis!;
 };
