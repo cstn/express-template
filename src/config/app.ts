@@ -34,8 +34,10 @@ export const config: Environment = {
   MONGO_URL: process.env.MONGO_URL as string,
 };
 
-const validated = EnvironmentSchema.safeParse(config);
-if (!validated.success) {
-  console.error('Invalid environment variables:', validated.error);
-  process.exit(1);
+if (process.env.NODE_ENV !== 'test') {
+  const validated = EnvironmentSchema.safeParse(config);
+  if (!validated.success) {
+    console.error('Invalid environment variables:', validated.error);
+    process.exit(1);
+  }
 }
