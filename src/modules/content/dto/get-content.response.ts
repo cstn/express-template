@@ -15,3 +15,15 @@ export const ContentResponseSchema = z
   });
 
 export type ContentResponse = z.infer<typeof ContentResponseSchema>;
+
+export const ContentsResponseSchema = z
+  .object({
+    total: z.number(),
+    items: z.array(ContentResponseSchema),
+  })
+  .meta({
+    id: 'ContentsResponse',
+    description: 'Content list response schema',
+  });
+
+export type ContentsResponse = z.infer<typeof ContentsResponseSchema>;

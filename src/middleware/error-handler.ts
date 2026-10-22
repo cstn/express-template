@@ -37,7 +37,7 @@ export const errorHandler: ErrorRequestHandler = (
     return res.status(400).json({ message: err.message });
   }
   if (err instanceof mongoose.Error.CastError) {
-    return res.status(400).json({ message: 'Invalid id' });
+    return res.status(400).json({ message: 'Invalid object id' });
   }
 
   if (err?.code === 11000) {

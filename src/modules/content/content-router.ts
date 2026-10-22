@@ -8,21 +8,16 @@ import {
   GetContentParamsSchema,
 } from './dto/get-content.params.js';
 import {
-  GetContentsArgs,
-  GetContentsArgsSchema,
-} from './dto/get-contents.args.js';
+  GetContentsQuery,
+  GetContentsQuerySchema,
+} from './dto/get-contents.query.js';
 
 export const router = Router();
 
-interface GetContentsQuery {
-  offset?: string;
-  limit?: string;
-}
-
 const getAll = async (
-  _req: Request<object, object, object, GetContentsQuery>,
+  _req: Request,
   res: Response,
-  { query }: { query: GetContentsArgs }
+  { query }: { query: GetContentsQuery }
 ) => {
   const contents = await findAll(query.offset, query.limit);
   res.json({
@@ -30,10 +25,10 @@ const getAll = async (
     items: contents.map(toContentResponseDto),
   });
 };
-router.get('/', withRequest({ query: GetContentsArgsSchema })(getAll));
+router.get('/', withRequest({ query: GetContentsQuerySchema })(getAll));
 
 const getById = async (
-  _req: Request<GetContentParams>,
+  _req: Request,
   res: Response,
   { params }: { params: GetContentParams }
 ) => {

@@ -3,6 +3,7 @@ import { AuthenticatedUserResponseSchema } from './dto/get-user.response.js';
 
 registry.register('AuthenticatedUserResponse', AuthenticatedUserResponseSchema);
 registry.registerPath({
+  description: 'Current user',
   method: 'get',
   path: '/auth/me',
   operationId: 'getMe',
