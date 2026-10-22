@@ -1,12 +1,14 @@
 import { z } from '../../../openapi/registry.js';
 
-export const UserResponseSchema = z
+export const AuthenticatedUserResponseSchema = z
   .object({
     id: z.string(),
   })
   .meta({
-    id: 'UserResponse',
+    id: 'AuthenticatedUserResponse',
     description: 'User response schema',
   });
 
-export type UserResponse = z.infer<typeof UserResponseSchema>;
+export type AuthenticatedUserResponse = z.infer<
+  typeof AuthenticatedUserResponseSchema
+>;

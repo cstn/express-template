@@ -26,6 +26,7 @@ app.use(
     limit: '1mb',
   })
 );
+app.set('trust proxy', 1);
 app.use(rateLimit({ windowMs: 15 * 60_000, limit: 100 }));
 app.use(express.urlencoded({ extended: false }));
 app.use(

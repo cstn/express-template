@@ -17,7 +17,12 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "openapi:generate": "tsx src/scripts/generate-openapi.ts",
-    "openapi:lint": "pnpm openapi:generate && spectral lint openapi.json"
+    "openapi:lint": "pnpm openapi:generate && spectral lint openapi.json",
+    "migration:postgres:create": "pnpm exec typeorm-ts-node-commonjs migration:create src/database/postgres/migrations/migration",
+    "migration:postgres:generate": "pnpm exec typeorm-ts-node-commonjs migration:generate src/database/postgres/migrations/migration -d src/database/postgres/database-config.ts",
+    "migration:postgres:show": "pnpm exec typeorm-ts-node-commonjs migration:show -d src/database/postgres/database-config.ts",
+    "migration:postgres:run": "pnpm exec typeorm-ts-node-commonjs migration:run -d  src/database/postgres/database-config.ts",
+    "migration:postgres:revert": "pnpm exec typeorm-ts-node-commonjs migration:revert -d src/database/postgres/database-config.ts"
   },
   "lint-staged": {
     "*.ts": [
@@ -47,10 +52,17 @@
     "express-rate-limit": "^8.7.1",
     "helmet": "^8.3.0",
     "husky": "^9.1.7",
+    "ioredis": "^6.0.0",
     "jose": "^6.2.12",
+    "pg": "^8.23.1",
     "pino": "^10.4.0",
     "pino-http": "^11.0.0",
+    "rate-limit-redis": "^6.0.1",
+    "reflect-metadata": "^0.2.2",
     "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "typeorm": "^1.1.2",
+    "typeorm-naming-strategies": "^4.1.0",
     "yaml": "^2.9.1",
     "zod": "^4.6.7"
   },
@@ -62,6 +74,7 @@
     "@stoplight/spectral-cli": "^6.17.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/ioredis-mock": "^8.2.8",
     "@types/node": "^26.6.5",
     "@types/supertest": "^7.2.1",
     "@types/swagger-ui-express": "^4.1.8",
@@ -72,6 +85,7 @@
     "eslint-plugin-prettier": "^5.5.7",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "globals": "^17.13.0",
+    "ioredis-mock": "^8.13.1",
     "lint-staged": "^17.6.0",
     "pino-pretty": "^13.2.0",
     "prettier": "^3.9.10",

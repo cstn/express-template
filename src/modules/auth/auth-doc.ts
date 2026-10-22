@@ -1,7 +1,7 @@
 import { ErrorSchema, registry } from '../../openapi/registry.js';
-import { UserResponseSchema } from './dto/get-user.response.js';
+import { AuthenticatedUserResponseSchema } from './dto/get-user.response.js';
 
-registry.register('UserResponse', UserResponseSchema);
+registry.register('AuthenticatedUserResponse', AuthenticatedUserResponseSchema);
 registry.registerPath({
   method: 'get',
   path: '/auth/me',
@@ -15,7 +15,9 @@ registry.registerPath({
   responses: {
     200: {
       description: 'Current user',
-      content: { 'application/json': { schema: UserResponseSchema } },
+      content: {
+        'application/json': { schema: AuthenticatedUserResponseSchema },
+      },
     },
     401: {
       description: 'Unauthorized',

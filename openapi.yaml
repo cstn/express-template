@@ -13,6 +13,8 @@ security:
 tags:
   - name: Auth
     description: Authentication and authorization
+  - name: Users
+    description: User accounts
 components:
   securitySchemes:
     bearerAuth:
@@ -44,7 +46,7 @@ components:
             - message
       required:
         - error
-    UserResponse:
+    AuthenticatedUserResponse:
       type: object
       properties:
         id:
@@ -52,13 +54,40 @@ components:
       required:
         - id
       description: User response schema
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        externalId:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        firstName:
+          type:
+            - string
+            - "null"
+        lastName:
+          type:
+            - string
+            - "null"
+      required:
+        - id
+        - externalId
+        - username
+        - email
+        - firstName
+        - lastName
+      description: User response schema
   parameters: {}
 paths:
   /auth/me:
     get:
       operationId: getMe
       tags:
-        - Auth
+        - Users
       security:
         - bearerAuth: []
       responses:
@@ -70,6 +99,12 @@ paths:
                 $ref: "#/components/schemas/UserResponse"
         "401":
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: User account not found
           content:
             application/json:
               schema:

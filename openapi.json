@@ -23,6 +23,10 @@
     {
       "name": "Auth",
       "description": "Authentication and authorization"
+    },
+    {
+      "name": "Users",
+      "description": "User accounts"
     }
   ],
   "components": {
@@ -71,7 +75,7 @@
           "error"
         ]
       },
-      "UserResponse": {
+      "AuthenticatedUserResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -80,6 +84,44 @@
         },
         "required": [
           "id"
+        ],
+        "description": "User response schema"
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "lastName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "externalId",
+          "username",
+          "email",
+          "firstName",
+          "lastName"
         ],
         "description": "User response schema"
       }
@@ -91,7 +133,7 @@
       "get": {
         "operationId": "getMe",
         "tags": [
-          "Auth"
+          "Users"
         ],
         "security": [
           {
@@ -111,6 +153,16 @@
           },
           "401": {
             "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User account not found",
             "content": {
               "application/json": {
                 "schema": {

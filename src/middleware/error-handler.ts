@@ -18,6 +18,11 @@ export const errorHandler: ErrorRequestHandler = (
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (err?.driverError?.code === '23505') {
+    return res.status(409).json({ error: 'Already exists' });
+  }
+
   req.log.error({ err }, 'unhandled error');
   return (
     res
