@@ -1,8 +1,12 @@
 import { Request, Response, Router } from 'express';
 
-import { withQuery } from '../../utils/handlers.js';
+import { withRequest } from '../../utils/handlers.js';
 import { toContentResponseDto } from './content-mapper.js';
-import { getAll } from './content-service.js';
+import { findAll, findById } from './content-service.js';
+import {
+  GetContentParams,
+  GetContentParamsSchema,
+} from './dto/get-content.params.js';
 import {
   GetContentsArgs,
   GetContentsArgsSchema,
@@ -15,19 +19,29 @@ interface GetContentsQuery {
   limit?: string;
 }
 
-router.get(
-  '/',
-  withQuery(GetContentsArgsSchema)(
-    async (
-      _req: Request<object, object, object, GetContentsQuery>,
-      res: Response,
-      query: GetContentsArgs
-    ) => {
-      const contents = await getAll(query.offset, query.limit);
-      res.json({
-        total: contents.length,
-        items: contents.map(toContentResponseDto),
-      });
-    }
-  )
-);
+const getAll = async (
+  _req: Request<object, object, object, GetContentsQuery>,
+  res: Response,
+  { query }: { query: GetContentsArgs }
+) => {
+  const contents = await findAll(query.offset, query.limit);
+  res.json({
+    total: contents.length,
+    items: contents.map(toContentResponseDto),
+  });
+};
+router.get('/', withRequest({ query: GetContentsArgsSchema })(getAll));
+
+const getById = async (
+  _req: Request<GetContentParams>,
+  res: Response,
+  { params }: { params: GetContentParams }
+) => {
+  const content = await findById(params.id);
+  if (!content) {
+    return res.status(404).json({ message: 'Content not found' });
+  }
+
+  return res.json(toContentResponseDto(content));
+};
+router.get('/:id', withRequest({ params: GetContentParamsSchema })(getById));
