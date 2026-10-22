@@ -1,6 +1,15 @@
+import 'reflect-metadata';
+
+import { config } from 'dotenv';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { afterAll, afterEach, beforeAll, vi } from 'vitest';
+
+config({
+  path: './test/.env.test',
+  quiet: true,
+  override: true,
+});
 
 vi.mock('../src/shared/redis');
 
