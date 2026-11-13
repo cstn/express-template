@@ -1,5 +1,5 @@
-import { ContentResponse } from './dto/get-content.response.js';
-import { Content } from './models/content-model.js';
+import { ContentResponse } from './dto/get-content.response.ts';
+import { Content } from './models/content-model.ts';
 
 export const toContentResponseDto = (content: Content): ContentResponse => ({
   id: content._id.toString(),

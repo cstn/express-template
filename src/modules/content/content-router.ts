@@ -1,16 +1,16 @@
 import { Request, Response, Router } from 'express';
 
-import { withRequest } from '../../utils/handlers.js';
-import { toContentResponseDto } from './content-mapper.js';
-import { findAll, findById } from './content-service.js';
+import { withRequest } from '../../utils/handlers.ts';
+import { toContentResponseDto } from './content-mapper.ts';
+import { findAll, findById } from './content-service.ts';
 import {
   GetContentParams,
   GetContentParamsSchema,
-} from './dto/get-content.params.js';
+} from './dto/get-content.params.ts';
 import {
   GetContentsQuery,
   GetContentsQuerySchema,
-} from './dto/get-contents.query.js';
+} from './dto/get-contents.query.ts';
 
 export const router = Router();
 

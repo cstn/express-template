@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { healthy, liveness, readiness } from './health-service.js';
+import { healthy, liveness, readiness } from './health-service.ts';
 export const router = Router();
 
 router.get('/live', (_req, res) => {

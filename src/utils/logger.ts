@@ -1,6 +1,6 @@
 import pino from 'pino';
 
-import { config } from '../config/app.js';
+import { config } from '../config/app.ts';
 
 const isProd = config.ENV === 'production';
 

@@ -1,10 +1,10 @@
-import { ErrorSchema, registry } from '../../openapi/registry.js';
-import { GetContentParamsSchema } from './dto/get-content.params.js';
+import { ErrorSchema, registry } from '../../openapi/registry.ts';
+import { GetContentParamsSchema } from './dto/get-content.params.ts';
 import {
   ContentResponseSchema,
   ContentsResponseSchema,
-} from './dto/get-content.response.js';
-import { GetContentsQuerySchema } from './dto/get-contents.query.js';
+} from './dto/get-content.response.ts';
+import { GetContentsQuerySchema } from './dto/get-contents.query.ts';
 
 registry.register('ContentResponse', ContentResponseSchema);
 registry.registerPath({

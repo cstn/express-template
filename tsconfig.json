@@ -11,6 +11,8 @@
     /* Modules */
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "rewriteRelativeImportExtensions": true,
+    "allowImportingTsExtensions": true,
     "rootDir": ".",
     "outDir": "./dist",
     "resolveJsonModule": true,

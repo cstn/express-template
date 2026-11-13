@@ -8,13 +8,13 @@ import helmet from 'helmet';
 import { pinoHttp } from 'pino-http';
 import swaggerUi from 'swagger-ui-express';
 
-import { router as appRouter } from './app.router.js';
-import { config } from './config/app.js';
-import { errorHandler } from './middleware/error-handler.js';
-import { localeMiddleware } from './middleware/locale.js';
-import { router as healthRouter } from './modules/health/health-router.js';
-import { buildOpenApiDocument, buildOpenApiYaml } from './openapi/document.js';
-import { logger } from './utils/logger.js';
+import { router as appRouter } from './app.router.ts';
+import { config } from './config/app.ts';
+import { errorHandler } from './middleware/error-handler.ts';
+import { localeMiddleware } from './middleware/locale.ts';
+import { router as healthRouter } from './modules/health/health-router.ts';
+import { buildOpenApiDocument, buildOpenApiYaml } from './openapi/document.ts';
+import { logger } from './utils/logger.ts';
 
 export const app = express();
 

@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express';
 
-import { requireAuth } from '../../middleware/auth.js';
-import { apiLimiter } from '../../middleware/limiters.js';
-import { toUserResponse } from './users-mapper.js';
-import { getUserByExternalId } from './users-service.js';
+import { requireAuth } from '../../middleware/auth.ts';
+import { apiLimiter } from '../../middleware/limiters.ts';
+import { toUserResponse } from './users-mapper.ts';
+import { getUserByExternalId } from './users-service.ts';
 
 export const router = Router();
 

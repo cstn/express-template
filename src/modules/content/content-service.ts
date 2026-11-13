@@ -1,4 +1,4 @@
-import { ContentModel } from './models/content-model.js';
+import { ContentModel } from './models/content-model.ts';
 
 export const findAll = (
   skip: number | undefined = 0,

@@ -1,4 +1,4 @@
-import { z } from '../../../openapi/registry.js';
+import { z } from '../../../openapi/registry.ts';
 
 export const UserResponseSchema = z
   .object({

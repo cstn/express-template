@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 import { DataSource, DataSourceOptions, FormattedConsoleLogger } from 'typeorm';
 
-import { User } from '../../modules/users/entities/user.js';
-import { NamingStrategy } from './naming-strategy.js';
+import { User } from '../../modules/users/entities/user.ts';
+import { NamingStrategy } from './naming-strategy.ts';
 
 dotenv.config({ quiet: true });
 

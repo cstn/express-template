@@ -1,9 +1,9 @@
-import { app } from './app.js';
-import { config } from './config/app.js';
-import { connectDb, mongoose } from './database/mongo/mongo-connection.js';
-import AppDataSource from './database/postgres/database-config.js';
-import { redis } from './shared/redis.js';
-import { logger } from './utils/logger.js';
+import { app } from './app.ts';
+import { config } from './config/app.ts';
+import { connectDb, mongoose } from './database/mongo/mongo-connection.ts';
+import AppDataSource from './database/postgres/database-config.ts';
+import { redis } from './shared/redis.ts';
+import { logger } from './utils/logger.ts';
 
 const main = async () => {
   await AppDataSource.initialize();

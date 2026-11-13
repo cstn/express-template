@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { config } from '../../config/app.js';
+import { config } from '../../config/app.ts';
 
 export async function connectDb() {
   mongoose.set('strictQuery', true);

@@ -2,7 +2,7 @@ import { Request } from 'express';
 import rateLimit, { ipKeyGenerator, Store } from 'express-rate-limit';
 import { type RedisReply, RedisStore } from 'rate-limit-redis';
 
-import { redis } from '../shared/redis.js';
+import { redis } from '../shared/redis.ts';
 
 const makeStore = (prefix: string): Store | undefined => {
   if (process.env.NODE_ENV === 'test') {

@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 
-import AppDataSource from '../../database/postgres/database-config.js';
-import { User } from './entities/user.js';
+import AppDataSource from '../../database/postgres/database-config.ts';
+import { User } from './entities/user.ts';
 
 const getRepository = (): Repository<User> => AppDataSource.getRepository(User);
 

@@ -1,5 +1,5 @@
-import { ErrorSchema, registry } from '../../openapi/registry.js';
-import { AuthenticatedUserResponseSchema } from './dto/get-user.response.js';
+import { ErrorSchema, registry } from '../../openapi/registry.ts';
+import { AuthenticatedUserResponseSchema } from './dto/get-user.response.ts';
 
 registry.register('AuthenticatedUserResponse', AuthenticatedUserResponseSchema);
 registry.registerPath({

@@ -1,11 +1,11 @@
-import '../modules/auth/auth-doc.js';
-import '../modules/users/users-doc.js';
-import '../modules/content/content-doc.js';
+import '../modules/auth/auth-doc.ts';
+import '../modules/users/users-doc.ts';
+import '../modules/content/content-doc.ts';
 
 import { OpenApiGeneratorV31 } from '@asteasolutions/zod-to-openapi';
 import yaml from 'yaml';
 
-import { registry } from './registry.js';
+import { registry } from './registry.ts';
 
 export const buildOpenApiDocument = () =>
   new OpenApiGeneratorV31(registry.definitions).generateDocument({

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { PagingQuerySchema } from '../../../shared/dto/get-page.query.js';
+import { PagingQuerySchema } from '../../../shared/dto/get-page.query.ts';
 
 export const GetContentsQuerySchema = PagingQuerySchema;
 
